@@ -1,0 +1,52 @@
+{
+    "variables": {
+        "vagrant_home": "{{env `HOME`}}/.vagrant.d",
+        "base_box_version": "{{env `BASE_BOX_VERSION`}}",
+        "docker_major_minor": "{{env `DOCKER_MAJOR_MINOR`}}",
+        "docker_patch": "{{env `DOCKER_PATCH`}}",
+        "image_revision": "{{env `BUILD_NUMBER`}}"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-ovf",
+            "headless": true,
+            "source_path": "{{ user `vagrant_home` }}/boxes/jumperfly-VAGRANTSLASH-centos-7/{{ user `base_box_version` }}/virtualbox/box.ovf",
+            "http_directory": ".",
+            "ssh_username": "root",
+            "ssh_password": "vagrant",
+            "shutdown_command": "poweroff",
+            "guest_additions_mode": "disable",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "2048",
+                    "--cpus",
+                    "4"
+                ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "site.yml",
+            "extra_arguments": [ "--extra-vars", "docker_version={{user `docker_major_minor`}}.{{ user `docker_patch` }}" ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "vagrant",
+                "output": "output-virtualbox-ovf/docker-{{.Provider}}.box",
+                "keep_input_artifact": true
+            },
+            {
+                "type": "vagrant-cloud",
+                "box_tag": "jumperfly/docker-{{ user `docker_major_minor` }}",
+                "version": "{{user `docker_patch`}}.{{user `image_revision`}}"
+            }
+        ]
+    ]
+}

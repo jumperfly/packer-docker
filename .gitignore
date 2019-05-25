@@ -1,0 +1,13 @@
+**/target/
+**/.settings/
+**/.classpath
+**/.project
+**/*.iml
+**/.vagrant
+**/.terraform
+**/*.box
+**/*.ovf
+**/*.vmdk
+**/*.iso
+**/*.retry
+roles
