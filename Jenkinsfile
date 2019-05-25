@@ -24,7 +24,9 @@ pipeline {
             }
         }
         stage ('Download Roles') {
-            sh 'ansible-galaxy install -r requirements.yml -p roles'
+            steps {
+                sh 'ansible-galaxy install -r requirements.yml -p roles'
+            }
         }
         stage ('Download Base Box') {
             when { 
