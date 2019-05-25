@@ -33,6 +33,16 @@
             "type": "ansible",
             "playbook_file": "site.yml",
             "extra_arguments": [ "--extra-vars", "docker_version={{user `docker_major_minor`}}.{{ user `docker_patch` }}" ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "dd if=/dev/zero of=/boot/ZERO bs=1M || echo Ignoring expected error",
+                "rm /boot/ZERO",
+                "dd if=/dev/zero of=/ZERO bs=1M || echo Ignoring expected error",
+                "rm /ZERO",
+                "sync"
+            ]
         }
     ],
     "post-processors": [
