@@ -1,3 +1,3 @@
 @Library('jenkins-pipeline-library') _
 
-packer-virtualbox-ovf
+packer_virtualbox_ovf
