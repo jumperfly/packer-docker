@@ -1,16 +1,17 @@
 {
     "variables": {
         "vagrant_home": "{{env `HOME`}}/.vagrant.d",
+        "base_box_path": "{{env `BASE_BOX_PATH`}}",
         "base_box_version": "{{env `BASE_BOX_VERSION`}}",
-        "docker_major_minor": "{{env `DOCKER_MAJOR_MINOR`}}",
-        "docker_patch": "{{env `DOCKER_PATCH`}}",
+        "docker_major_minor": "18.09",
+        "docker_patch": "6",
         "image_revision": "{{env `BUILD_NUMBER`}}"
     },
     "builders": [
         {
             "type": "virtualbox-ovf",
             "headless": true,
-            "source_path": "{{ user `vagrant_home` }}/boxes/jumperfly-VAGRANTSLASH-centos-7/{{ user `base_box_version` }}/virtualbox/box.ovf",
+            "source_path": "{{ user `vagrant_home` }}/boxes/{{ user `base_box_path` }}/{{ user `base_box_version` }}/virtualbox/box.ovf",
             "http_directory": ".",
             "ssh_username": "root",
             "ssh_password": "vagrant",
