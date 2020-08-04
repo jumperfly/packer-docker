@@ -1,7 +1,7 @@
 {
     "variables": {
-        "docker_version": "19.03.9",
-        "box_version": "1903.9.{{env `BUILD_NUMBER`}}"
+        "docker_version": "19.03.12",
+        "box_version": "1903.12.{{env `BUILD_NUMBER`}}"
     },
     "builders": [
         {
