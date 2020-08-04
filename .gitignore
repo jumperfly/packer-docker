@@ -11,3 +11,4 @@
 **/*.iso
 **/*.retry
 roles
+output*

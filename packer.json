@@ -1,39 +1,24 @@
 {
     "variables": {
-        "vagrant_home": "{{env `HOME`}}/.vagrant.d",
-        "base_box_path": "{{env `BASE_BOX_PATH`}}",
-        "base_box_version": "{{env `BASE_BOX_VERSION`}}",
-        "docker_major_minor": "18.09",
-        "docker_patch": "6",
-        "image_revision": "{{env `BUILD_NUMBER`}}"
+        "docker_version": "19.03.9",
+        "box_version": "1903.9.{{env `BUILD_NUMBER`}}"
     },
     "builders": [
         {
-            "type": "virtualbox-ovf",
-            "headless": true,
-            "source_path": "{{ user `vagrant_home` }}/boxes/{{ user `base_box_path` }}/{{ user `base_box_version` }}/virtualbox/box.ovf",
-            "http_directory": ".",
+            "type": "vagrant",
+            "provider": "virtualbox",
+            "source_path": "jumperfly/centos-7",
+            "box_version": "7.8.1",
+            "communicator": "ssh",
             "ssh_username": "root",
-            "ssh_password": "vagrant",
-            "shutdown_command": "poweroff",
-            "guest_additions_mode": "disable",
-            "vboxmanage": [
-                [
-                    "modifyvm",
-                    "{{.Name}}",
-                    "--memory",
-                    "2048",
-                    "--cpus",
-                    "4"
-                ]
-            ]
+            "ssh_password": "vagrant"
         }
     ],
     "provisioners": [
         {
             "type": "ansible",
             "playbook_file": "site.yml",
-            "extra_arguments": [ "--extra-vars", "docker_version={{user `docker_major_minor`}}.{{ user `docker_patch` }}" ]
+            "extra_arguments": [ "--extra-vars", "docker_version={{user `docker_version`}}" ]
         },
         {
             "type": "shell",
@@ -49,14 +34,9 @@
     "post-processors": [
         [
             {
-                "type": "vagrant",
-                "output": "output-virtualbox-ovf/docker-{{.Provider}}.box",
-                "keep_input_artifact": true
-            },
-            {
                 "type": "vagrant-cloud",
-                "box_tag": "jumperfly/docker-{{ user `docker_major_minor` }}",
-                "version": "{{user `docker_patch`}}.{{user `image_revision`}}"
+                "box_tag": "jumperfly/docker",
+                "version": "{{user `box_version`}}"
             }
         ]
     ]

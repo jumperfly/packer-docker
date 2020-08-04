@@ -1,3 +1,3 @@
-@Library('jenkins-pipeline-library') _
+@Library('jumperfly@master') _
 
-packer_virtualbox_ovf()
+packerPipeline()
