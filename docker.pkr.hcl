@@ -1,11 +1,16 @@
 variable "docker_version" {
   type = string
-  default = "19.03.12"
+  default = "20.10.4"
+}
+
+variable "containerd_version" {
+  type = string
+  default = "1.4.3"
 }
 
 variable "box_version_major_minor" {
   type = string
-  default = "1903.12"
+  default = "2010.4"
 }
 
 variable "build_number" {
@@ -31,6 +36,7 @@ build {
   provisioner "shell" {
     script = "provision.sh"
     environment_vars = [
+      "CONTAINERD_VERSION=${var.containerd_version}",
       "DOCKER_VERSION=${var.docker_version}"
     ]
   }
