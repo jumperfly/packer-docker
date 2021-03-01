@@ -1,0 +1,6 @@
+timeout: 60m
+steps:
+- id: build
+  name: 'gcr.io/jumperfly/packer-virtualbox-builder'
+  env:
+    - INSTANCE_MACHINE_TYPE=n2-highcpu-4
