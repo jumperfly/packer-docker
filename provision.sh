@@ -2,7 +2,7 @@
 
 # Configure network
 systemctl disable firewalld
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
 
 
 # Install packages
