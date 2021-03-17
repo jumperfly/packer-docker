@@ -33,6 +33,10 @@ source "vagrant" "docker" {
 
 build {
   sources = ["sources.vagrant.docker"]
+  provisioner "file" {
+    source = "cloud-init-seed"
+    destination = "/var/lib/cloud/seed"
+  }
   provisioner "shell" {
     script = "provision.sh"
     environment_vars = [
